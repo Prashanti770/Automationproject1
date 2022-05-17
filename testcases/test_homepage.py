@@ -18,6 +18,7 @@ class Test_002_homepage():
     logger1 = LogGen.loginfo()
 
     @allure.severity(allure.severity_level.CRITICAL)
+    @pytest.mark.dependency(depends=['testcases\Test_001_login::test_hometitles'])
     def test_homepage(self,setUpClass):
         self.logger1.info("********* Test_001_login *********")
         self.driver = setUpClass

@@ -1,43 +1,49 @@
+import time
 import pytest
 from selenium import webdriver
 
-@pytest.fixture
-# def setUpClass(cls):
-def setup():
-    # global driver
-    driver = webdriver.Edge(executable_path="C:\\edgedriver_win64 (1)\\msedgedriver.exe")
-    # driver.maximize_window()
-    # driver.implicitly_wait(10)
-    return driver
-    # driver.get(url)
-    # driver.maximize_window()
-    # request.cls.driver = driver
-    # yield
-    # driver.close()
-
-import os
-import time
-
-# import pytest
-# from selenium import webdriver
-# from webdriver_manager.chrome import ChromeDriverManager
-# from webdriver_manager.firefox import GeckoDriverManager
-# from webdriver_manager.microsoft import EdgeChromiumDriverManager
-# driver = None
+# @pytest.fixture(params =["chrome","edge"], scope='class')
+# def init__driver(request):
+#     driver = None
+#     if request.param == 'chrome':
+#         driver = webdriver.Chrome(executable_path="C:\chromedriver_win32\chromedriver.exe")
+#         print("Launching chrome browser.................")
+#     elif request.param == 'edge':
+#         driver = webdriver.Edge(executable_path="C:\\edgedriver_win64 (1)\\msedgedriver.exe")
+#         print("Launching Edge browser ...................")
+#     else:
+#         driver = webdriver.Firefox()
+#         print("Launching Firefox browser ...................")
 #
-# @pytest.fixture(autouse=True)
-# def setup(request, browser, url):
-#     global driver
-#     if browser == "chrome":
-#         driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
-#     elif browser == "firefox":
-#         driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
-#     # elif browser == "edge":
-#     #     driver = webdriver.Edge(EdgeChromiumDriverManager().install())
-#     elif browser=='edge':
-#         driver = webdriver.edge()
-#     driver.get(url)
-#     driver.maximize_window()
+#     driver.implicitly_wait(10)
 #     request.cls.driver = driver
-#     yield
-#     driver.close()
+#     yield request.cls.driver
+#     # yield
+#     time.sleep(5)
+#     request.cls.driver.quit()
+
+    # return _driver
+
+@pytest.fixture
+def setup(browser):
+    if browser == 'chrome':
+        driver = webdriver.Chrome(executable_path="C:\chromedriver_win32\chromedriver.exe")
+        print("Launching chrome browser.................")
+    elif browser == 'firefox':
+        driver = webdriver.Firefox()
+        print("Launching Firefox browser ...................")
+    else:
+        driver =webdriver.Edge(executable_path="C:\\edgedriver_win64 (1)\\msedgedriver.exe")
+        print("Launching Edge browser ...................")
+
+    return driver
+
+def pytest_addoption(parser): #gets the value from CLI/hook
+    parser.addoption("--browser")
+
+@pytest.fixture()
+def browser(request): #returns browser value to setup method
+    return request.config.getoption("--browser")
+
+
+

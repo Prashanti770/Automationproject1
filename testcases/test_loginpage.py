@@ -20,6 +20,10 @@ class Test_001_login():
 
     @allure.severity(allure.severity_level.CRITICAL)
     @pytest.fixture(scope="function")
+
+    @pytest.mark.run(order=2)
+    # @pytest.mark.dependency(depends=['Test_001_login::test_hometitles'])
+    @pytest.mark.dependency()
     def test_logintopage(self,setup):
         self.logger1.info("********* Test_001_login *********")
         # self.driver = driver
@@ -33,32 +37,39 @@ class Test_001_login():
         time.sleep(5)
         # self.driver.close()
 
-    # @allure.severity(allure.severity_level.MINOR)
-    # def test_logo(self,setup):
-    #     pytest.skip("Test case is skipped")
-    #     self.driver.close()
-    #
-    # @allure.severity(allure.severity_level.NORMAL)
-    # def test_hometitles(self,setup):
-    #
-    #     self.logger1.info("********* Verify Homepage Title *********")
-    #     self.driver = setup
-    #     self.driver.get(self.baseURL)
-    #     act_title = self.driver.title
-    #
-    #     if act_title == "Swag Labs":
-    #         self.logger1.info("********* Title is correct *********")
-    #         print("title is", act_title)
-    #
-    #         self.driver.close()
-    #         assert True
-    #
-    #     else:
-    #         allure.attach(self.driver.get_screenshot_as_png(),name="Testcase01 title",attachment_type=AttachmentType.PNG)
-    #         self.logger1.error("********* Title is incorrect *********")
-    #         self.driver.save_screenshot(".\\Screenshots\\test_hometitle.png")
-    #         self.driver.close()
-    #         assert False
+    @allure.severity(allure.severity_level.MINOR)
+    # @pytest.mark.dependency()
+    def test_logo(self,setup):
+        self.logger1.info("********* Verify Page Logo *********")
+        self.logger1.warning("********* Test Skipped *********")
+        pytest.skip("Test case is skipped")
+        self.driver.close()
+
+    @allure.severity(allure.severity_level.NORMAL)
+    @pytest.mark.run(order=1)
+    @pytest.mark.dependency()
+    def test_hometitles(self,setup):
+
+        self.logger1.info("********* Verify Homepage Title *********")
+        self.driver = setup
+        self.driver.get(self.baseURL)
+        act_title = self.driver.title
+        print(act_title)
+
+        if act_title == "Swag Labs":
+            self.logger1.info("********* Title is correct *********")
+            print("title is", act_title)
+            assert True
+            self.driver.close()
+
+
+        else:
+            allure.attach(self.driver.get_screenshot_as_png(),name="Testcase01 title",attachment_type=AttachmentType.PNG)
+            self.logger1.error("********* Title is incorrect *********")
+            self.driver.save_screenshot(".\\Screenshots\\test_hometitle.png")
+            assert False
+            self.driver.close()
+
 
 
 

@@ -1,0 +1,2 @@
+[32mINFO    [0m root:test_loginpage.py:42 ********* Verify Page Logo *********
+[33mWARNING [0m root:test_loginpage.py:43 ********* Test Skipped *********

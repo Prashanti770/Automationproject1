@@ -16,7 +16,8 @@ from testcases.test_loginpage import Test_001_login
 class Test_002_homepage1(Test_001_login):
 
     @allure.severity(allure.severity_level.CRITICAL)
-    @pytest.fixture(scope="function")
+    # @pytest.fixture(scope="function")
+    @pytest.mark.dependency(depends=['Test_001_login::test_logintopage'])
     def test_homepage(self):
 
         self.hp = Homepage1(self.driver)
